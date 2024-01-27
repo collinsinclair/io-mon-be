@@ -1,15 +1,7 @@
-from django.urls import include, path
-from rest_framework import routers
-
-from ios import views
-
-router = routers.DefaultRouter()
-router.register(r"inputs", views.InputViewSet)
-router.register(r"outputs", views.OutputViewSet)
-router.register(r"requests", views.RequestViewSet)
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path('admin/', admin.site.urls),
+    path('', include('ios.urls'))
 ]
-
-urlpatterns += router.urls

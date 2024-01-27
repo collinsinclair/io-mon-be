@@ -1,6 +1,8 @@
-from rest_framework import permissions, viewsets
+from rest_framework import generics
+from rest_framework import viewsets
 from .serializers import *
-from .models import *
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class InputViewSet(viewsets.ModelViewSet):
@@ -26,5 +28,11 @@ class RequestViewSet(viewsets.ModelViewSet):
     API endpoint that allows Requests to be viewed or edited.
     """
 
-    queryset = Request.objects.all().order_by("created_at")
+    queryset = Request.objects.all().order_by("-created_at")
     serializer_class = RequestSerializer
+
+    @action(detail=False)
+    def open_requests(self, request):
+        requests = Request.objects.filter(done=False).order_by("-created_at")
+        serializer = self.get_serializer(requests, many=True)
+        return Response(serializer.data)
