@@ -30,7 +30,7 @@ class Request(models.Model):
     input = models.ForeignKey(Input, on_delete=models.CASCADE)
     value = models.IntegerField(choices=REQUEST_CHOICES)
     done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        now = datetime.now().isoformat()
-        return f'{self.get_value_display()} {self.input} in {self.output} ({now})'
+        return f"{self.get_value_display()} {self.input} in {self.output} ({self.created_at.isoformat()})"
