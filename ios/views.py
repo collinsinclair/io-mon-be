@@ -23,16 +23,23 @@ class OutputViewSet(viewsets.ModelViewSet):
     serializer_class = OutputSerializer
 
 
-class RequestViewSet(viewsets.ModelViewSet):
+class AskViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows Requests to be viewed or edited.
+    API endpoint that allows Asks to be viewed or edited.
     """
 
-    queryset = Request.objects.all().order_by("-created_at")
-    serializer_class = RequestSerializer
+    queryset = Ask.objects.all().order_by("-created_at")
+    serializer_class = AskSerializer
 
     @action(detail=False)
-    def open_requests(self, request):
-        requests = Request.objects.filter(done=False).order_by("-created_at")
-        serializer = self.get_serializer(requests, many=True)
+    def open(self, request):
+        asks = Ask.objects.filter(done=False).order_by("-created_at")
+        serializer = self.get_serializer(asks, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def mark_as_done(self, request, pk=None):
+        ask = self.get_object()
+        ask.done = True
+        ask.save()
+        return Response({"status": "Ask marked as done"})

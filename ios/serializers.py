@@ -5,17 +5,21 @@ from .models import *
 class InputSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Input
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 class OutputSerializer(serializers.HyperlinkedModelSerializer):
+    inputs = InputSerializer(many=True, read_only=True)
+
     class Meta:
         model = Output
-        fields = ["name", "inputs"]
+        fields = ["id", "name", "inputs"]
 
 
-class RequestSerializer(serializers.HyperlinkedModelSerializer):
-    # created_at = serializers.DateTimeField(read_only=True)
+class AskSerializer(serializers.HyperlinkedModelSerializer):
+    input = InputSerializer(many=False, read_only=True)
+    output = OutputSerializer(many=False, read_only=True)
+
     class Meta:
-        model = Request
-        fields = ["output", "input", "value", "done", "created_at"]
+        model = Ask
+        fields = ["id", "output", "input", "value", "done", "created_at"]

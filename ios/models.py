@@ -1,7 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
 class Input(models.Model):
     name = models.CharField(
         max_length=100,
@@ -23,11 +22,11 @@ class Output(models.Model):
         return self.name
 
 
-class Request(models.Model):
-    REQUEST_CHOICES = ((1, "More"), (-1, "Less"))
+class Ask(models.Model):
+    ASK_CHOICES = ((1, "More"), (-1, "Less"))
     output = models.ForeignKey(Output, on_delete=models.CASCADE)
     input = models.ForeignKey(Input, on_delete=models.CASCADE)
-    value = models.IntegerField(choices=REQUEST_CHOICES)
+    value = models.IntegerField(choices=ASK_CHOICES)
     done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
