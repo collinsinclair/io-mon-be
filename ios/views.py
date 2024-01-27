@@ -1,8 +1,8 @@
-from rest_framework import generics
 from rest_framework import viewsets
-from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from .serializers import *
 
 
 class InputViewSet(viewsets.ModelViewSet):
